@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+loan_proof_user,loan_proof_name,odoo_customer_supplier_loan_app.model_loan_proof,,1,1,1,1
+loan_type_user,loan_type_name,odoo_customer_supplier_loan_app.model_loan_type,,1,1,1,1
+loan_policies_user,loan_policies_name,odoo_customer_supplier_loan_app.model_loan_policies,,1,1,1,1
+
+loan_request_user,loan_request_user,odoo_customer_supplier_loan_app.model_loan_request,group_loan_user,1,1,1,0
+
+loan_request_manager,loan_request_manager,odoo_customer_supplier_loan_app.model_loan_request,group_loan_manager,1,1,1,1
+
+loan_installment_manager,loan_installment_manager,model_loan_installment,group_loan_manager,1,1,1,1
+
+loan_installment_user,loan_installment_user,model_loan_installment,group_loan_user,1,0,0,0

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record model="ir.module.category" id="module_loan_management">
+        <field name="name">Loan Management</field>
+        <field name="sequence">23</field>
+    </record>
+
+    <record id="group_loan_user" model="res.groups">
+        <field name="name">Loan User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="module_loan_management"/>
+    </record>
+    
+    <record id="group_loan_manager" model="res.groups">
+        <field name="name">Loan Manager</field>
+        <field name="implied_ids" eval="[(4, ref('odoo_customer_supplier_loan_app.group_loan_user')), (4, ref('base.user_admin'))]"/>
+        <field name="category_id" ref="module_loan_management"/>
+    </record>
+
+   <record id="rule_loan_requert_manager" model="ir.rule">
+        <field name="name">Loan Manager Access Rule</field>
+        <field name="model_id" ref="model_loan_request"/>
+        <field name="groups" eval="[(4, ref('odoo_customer_supplier_loan_app.group_loan_manager'))]"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+ </record>
+
+<record id="rule_loan_requert_user" model="ir.rule">
+        <field name="name">Loan User Access Rule</field>
+        <field name="model_id" ref="model_loan_request"/>
+        <field name="groups" eval="[(4, ref('odoo_customer_supplier_loan_app.group_loan_user'))]"/>
+        <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+ </record>
+
+</data>
+</odoo>

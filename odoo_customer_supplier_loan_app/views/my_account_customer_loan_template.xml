@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="portal_my_home_customer_loan" name="Portal My Home: Customer Loan"
+		inherit_id="portal.portal_my_home" priority="40">
+		<xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+			<a class="list-group-item list-group-item-action d-flex align-items-center justify-content-between" t-if="loan_request_count" href="/my/loan">
+				Loans
+				<span class="badge badge-secondary badge-pill" t-esc="loan_request_count"/>
+			</a>
+		</xpath>
+	</template>
+	
+	<template id="portal_my_home_menu_loan" name="Portal layout : Loan"
+		inherit_id="portal.portal_breadcrumbs" priority="30">
+		<xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+			<li t-if="page_name == 'loan'" class="breadcrumb-item active">
+				<a t-if="loan" t-attf-href="/my/loan?{{ keep_query() }}">Loans</a>
+				<t t-else="">Loans</t>
+			</li>
+			<li t-if="loan">
+				<t t-esc="loan.name" />
+			</li>
+		</xpath>
+	</template>
+	
+	<template id="portal_my_loan" name="My Loan">
+		<t t-call="portal.portal_layout">
+			<t t-call="portal.portal_searchbar">
+                <t t-set="title">Your Loan</t>
+            </t>
+			
+			<t t-if="not loans">
+				<p>There are currently no Loan Request for your account.</p>
+			</t>
+			<div t-if="loans" class="panel panel-default">
+				<t t-set="website_loan" t-value="website.get_loan_details()" />
+				<div class="table-responsive">
+					<table class="table table-hover o_portal_my_doc_table">
+						<thead>
+							<tr class="active">
+								<th>Loan No</th>
+								<th>Loan Type</th>
+								<th>Date Applied</th>
+								<th>Date Approved</th>
+								<th>Status</th>
+								<th>Total Amount</th>
+							</tr>
+						</thead>
+						<t t-foreach="website_loan" t-as="loan">
+							<tr>
+								<td>
+									<a t-attf-href="/loan/view/detail/#{loan.id}">
+										<t t-esc="loan.name" />
+									</a>
+								</td>
+								<td>
+									<span t-field="loan.loan_type_id.name" />
+								</td>
+								<td>
+									<span t-field="loan.applied_date" />
+								</td>
+								<td>
+									<span t-field="loan.approve_date" />
+								</td>
+								<td>
+									<span t-field="loan.state" />
+								</td>
+								<td>
+									<span t-field="loan.total_loan" />
+								</td>
+							</tr>
+						</t>
+					</table>
+				</div>
+				<div t-if="pager" class="o_portal_pager text-center">
+					<t t-call="portal.pager" />
+				</div>
+			</div>
+		</t>
+	</template>
+	
+
+	<template id="loan_request_view" name="Loan View" inherit_id="portal.portal_sidebar" primary="True">
+		<xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+			<div class="container">
+				<t t-foreach="loan_request_data_list" t-as="items">
+					<div class="oe_structure">
+						<div class="row">
+							<div class="col-sm-4">
+								<ol class="breadcrumb mt8">
+									<li class="breadcrumb-item active">
+										<a href="/my/home">
+											<i class="fa fa-home" />
+										</a>
+									</li>
+									<li class="breadcrumb-item active">
+										<a href="/my/loan">My Loans</a>
+									</li>
+									<li class="breadcrumb-item active">
+										Loans :
+										<span t-field="items.name" />
+									</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-md-12">
+										<h4>
+											<b><span t-field="items.name" /></b>
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb8" t-if="items.user_id">
+											<strong>Partner : </strong>
+											<span t-field="items.partner_id" />
+										</div>
+
+										<div class="mb8">
+											<strong>Loan Type : </strong>
+											<span t-field="items.loan_type_id.name" />
+										</div>
+
+										<div class="mb8">
+											<strong>Loan Partner Type : </strong>
+											<span t-field="items.loan_partner_type" />
+										</div>
+
+										<div class="mb8">
+											<strong>User : </strong>
+											<span t-field="items.user_id" />
+										</div>
+
+									</div>
+									<div class="col-md-6">
+
+										<div class="mb8">
+											<strong>Applied Date : </strong>
+											<span t-field="items.applied_date" />
+										</div>
+
+										<div class="mb8">
+											<strong>Approve Date : </strong>
+											<span t-field="items.approve_date" />
+										</div>
+
+										<div class="mb8">
+											<strong>Disbursement Date : </strong>
+											<span t-field="items.disbursement_date" />
+										</div>
+
+										<div class="mb8">
+											<strong>state : </strong>
+											<span t-field="items.state" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-md-12">
+									<h4>
+										<span><b>Loan Details</b></span>
+									</h4>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb8" t-if="items.user_id">
+										<strong>Principal Amount : </strong>
+										<span t-field="items.principal_amount" />
+									</div>
+
+									<div class="mb8">
+										<strong>Interest Mode : </strong>
+										<span t-field="items.interest_mode" />
+									</div>
+
+									<div class="mb8">
+										<strong>Duration(Months) : </strong>
+										<span t-field="items.duration_months" />
+									</div>
+
+									<div class="mb8">
+										<strong>Rate : </strong>
+										<span t-field="items.rate" />
+									</div>
+
+								</div>
+								<div class="col-md-6">
+
+									<div class="mb8">
+										<strong>Total Loan : </strong>
+										<span t-field="items.total_loan" />
+									</div>
+
+									<div class="mb8">
+										<strong>Total Interest On Loan : </strong>
+										<span t-field="items.total_interest" />
+									</div>
+
+									<div class="mb8">
+										<strong>Received From Partner : </strong>
+										<span t-field="items.received_from_partner" />
+									</div>
+
+									<div class="mb8">
+										<strong>Balance On Loan : </strong>
+										<span t-field="items.balance_on_loan" />
+									</div>
+								</div>
+							</div>
+							<br />
+								<span t-field="items.notes" />
+						</div>
+
+						<div class="row mt32">
+							<div class="col-md-12">
+								<h4>
+									<strong>Message and communication history</strong>
+								</h4>
+							</div>
+							<div class="col-md-10 col-md-offset-1 mt16">
+								<t t-call="portal.message_thread">
+									<t t-set="object" t-value="items"/>
+								</t>
+							</div>
+						</div>
+					</div>
+				</t>
+			</div>
+		</xpath>
+	</template>
+
+	<!-- Message Send -->
+	<template id="loan_message_thank_you" name="Loan Message Thank You">
+		<t t-call="website.layout">
+
+			<div id="wrap" class="oe_structure oe_empty">
+				<section>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<h1 class="text-center">Thank You</h1>
+								<h3 class="text-muted text-center">
+									Your Message/Attachments have been send successfully.
+									<br />
+								</h3>
+								<a href="/my/loan" class="btn btn-info">
+									<span class="fa fa-long-arrow-left" />
+									Go Back
+								</a>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</t>
+	</template>
+
+</odoo>

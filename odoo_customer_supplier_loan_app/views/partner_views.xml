@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+	<record id="res_partner_form_view_inherit_id" model="ir.ui.view">
+	    <field name="name">res.partner.form.inherite</field>
+	    <field name="model">res.partner</field>
+	    <field name="priority" eval="8" />
+	    <field name="inherit_id" ref="base.view_partner_form"/>
+	    <field name="arch" type="xml">
+	        <xpath expr="//page[@name='sales_purchases']" position="after">
+	            <page name="Loan" string="Loans">
+	                <field name="loan_ids"/>
+	            </page>
+	            
+	            <page name="policy" string="Policies">
+	                <field name="policy_ids"/>
+	            </page>
+	        </xpath>
+	        
+	        <xpath expr="//field[@name='vat']" position="after">
+	            <field name="allow_multiple_loan"/>
+	            <field name="loan_defaulter"/>
+	        </xpath>
+	    </field>
+	</record>
+
+	</data>
+</odoo>

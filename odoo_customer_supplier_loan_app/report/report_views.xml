@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="report_customer_loan_print"
+            string="Print Loan"
+            model="loan.request" 
+            report_type="qweb-pdf"
+            file="odoo_customer_supplier_loan_app.report_loan" 
+            name="odoo_customer_supplier_loan_app.report_loan" 
+            attachment="(object.name + '_Loan.pdf')"
+        />
+ 
+    </data>
+</odoo>

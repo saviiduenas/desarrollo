@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+
+        <record id="infilefel_view_company_form" model="ir.ui.view">
+          <field name="name">infilefel.res.company.form</field>
+          <field name="model">res.company</field>
+	        <field name="inherit_id" ref="base.view_company_form"/>
+	        <field name="arch" type="xml">
+                    <notebook position="inside">
+                        <page string="FEEL">
+                            <group>
+                                <field name="fel_usuario"/>
+                                <field name="fel_llave_pre_firma"/>
+                                <field name="fel_llave_firma"/>
+                            </group>
+                            <group string="Frases">
+                                <group>
+                                    <field name="fel_frase_ids">
+                                        <tree string="Frases" editable="bottom">
+                                            <field name="codigo"/>
+                                            <field name="frase"/>
+                                        </tree>
+                                    </field>
+                                    <field name="fel_logo"/>
+                                    <field name="fel_texto_logo"/>
+                                </group>
+                            </group>
+
+                        </page>
+                    </notebook>
+	        </field>
+	    </record>
+
+  </data>
+</odoo>
